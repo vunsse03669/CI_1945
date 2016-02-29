@@ -13,30 +13,40 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
     public final int WIDTH = 400;
     public final int HEIGH = 640;
     public final int FPS = 1000/60;
-    BufferedImage background, plane1,plane2;
-    public int plane1X = 0;
-    public int plane1Y = 0;
-    public int plane2X = 0;
-    public int plane2Y = 0;
-    public int status = 0;
+    BufferedImage background;
+    Graphics seconds;
+    Image img;
+    Plane plane, plane2;
+    Bullet bullet;
 
     public GameWindow(){
-        this.setGame();
+
         try{
             this.init();
+            this.setGame();
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
+    @Override
+    public void update(Graphics g){
+        if(img == null){
+            img = createImage(this.getWidth(), this.getHeight());
+            seconds = img.getGraphics();
+        }
+        seconds.setColor(getBackground());
+        seconds.fillRect(0,0,getWidth(),getHeight());
+        seconds.setColor(getForeground());
+        paint(seconds);
+        g.drawImage(img,0,0,null);
+    }
 
     public void setGame(){
-        plane1X = 160;
-        plane1Y = 300;
-        plane2X = 160;
-        plane2Y = 500;
         this.setTitle("1945");
         this.setSize(WIDTH,HEIGH);
         this.setVisible(true);
+
+        setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "cursor"));
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -50,15 +60,28 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
 
     public void init() throws Exception {
         background = ImageIO.read(new File("Resources/Background.png"));
-        plane1 = ImageIO.read(new File("Resources/PLANE1.png"));
-        plane2 = ImageIO.read(new File("Resources/PLANE2.png"));
-        repaint();
+        plane = new Plane();
+        plane2 = new Plane();
+        plane.setX(150);
+        plane.setY(300);
+        plane.setSpeed(5);
+        plane.setDir(0);
+        plane.setType(1);
+        plane2.setX(150);
+        plane2.setY(500);
+        plane2.setType(2);
+        plane.loadImage();
+        plane2.loadImage();
+       // repaint();
     }
 
     public void paint(Graphics g){
         g.drawImage(background,0,0,null);
-        g.drawImage(plane1,plane1X,plane1Y,null);
-        g.drawImage(plane2,plane2X,plane2Y,null);
+        plane.draw(g);
+        plane2.draw(g);
+        if(plane.getFire()){
+            plane.drawBullet(g);
+        }
     }
 
     @Override
@@ -69,37 +92,37 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyChar() == 'w'){
-            System.out.println("xxxxxxxxxxx");
-            status = 1;
+            plane.setDir(1);
         }else if(e.getKeyChar() == 's'){
-            status = 2;
+            plane.setDir(2);
         }
         else if(e.getKeyChar() == 'a'){
-            status = 3;
+            plane.setDir(3);
         }else if(e.getKeyChar() == 'd'){
-            status = 4;
+            plane.setDir(4);
+        }else if(e.getKeyChar() == 'l'){
+            plane.setFire(true);
+            plane.bullet.setX(plane.getX()+30);
+            plane.bullet.setY(plane.getY());
+            if(plane.bullet.getY() == 0){
+                plane.setFire(false);
+            }
         }
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        status = 0;
+        plane.setDir(0);
+        //plane.setFire(false);
     }
 
     @Override
     public void run() {
 
         while (true){
-            if(status == 1){
-                plane1Y -= 5;
-            } else if(status == 2){
-                plane1Y += 5;
-            }else if(status == 3){
-                plane1X -= 5;
-            }else if(status == 4){
-                plane1X += 5;
-            }
-
+            plane.update();
+            plane.fire();
             repaint();
             try {
                 Thread.sleep(FPS);
@@ -114,7 +137,7 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        plane2X = e.getX();
-        plane2Y = e.getY();
+        plane2.setX(e.getX());
+        plane2.setY(e.getY());
     }
 }
