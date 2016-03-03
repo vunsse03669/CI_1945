@@ -3,7 +3,6 @@
  */
 public abstract class PlaneObject extends GameObject {
     protected int heath;
-    protected int type;
     protected int dir;
 
     public int getHeath() {
@@ -20,10 +19,6 @@ public abstract class PlaneObject extends GameObject {
 
     public void setHeath(int heath) {
         this.heath = heath;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public void setDir(int dir) {

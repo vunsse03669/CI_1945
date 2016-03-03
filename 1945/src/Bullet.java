@@ -9,7 +9,6 @@ import java.io.IOException;
  */
 public class Bullet extends GameObject {
 
-    private int type;
     private Bullet(){
         this.X = 0;
         this.Y = 0;
