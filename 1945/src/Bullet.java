@@ -21,7 +21,7 @@ public class Bullet extends GameObject {
         this.speed = speed;
         this.type = type;
         try {
-            this.sprite = ImageIO.read(new File("Resources/bullet.png"));
+            this.sprite = ImageIO.read(new File("Resources/bullet2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,11 +43,11 @@ public class Bullet extends GameObject {
     public void multiFire(){
         if(this.speed < 0){
             this.Y -= this.speed;
-            this.X -= this.speed;
+            this.X -= this.speed/2;
         }
         else{
             this.Y += this.speed;
-            this.X -= this.speed;
+            this.X -= this.speed/2;
         }
     }
 

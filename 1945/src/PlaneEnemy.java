@@ -13,7 +13,6 @@ public class PlaneEnemy extends PlaneObject {
     private Vector<Bullet> vecBul = new Vector<>();
     private int count = 0;
     private int angle = 0;
-    private int type;
 
     private PlaneEnemy(){}
     public PlaneEnemy(double x, double y, int speed, int type){
@@ -63,17 +62,17 @@ public class PlaneEnemy extends PlaneObject {
     }
 
     public void fire(){
-        Bullet bullet = new Bullet(this.X+25,this.Y+30,-5,1);
-        Bullet bullet2 = new Bullet(this.X+25,this.Y+100,-5,1);
+        Bullet bullet = new Bullet(this.X+25,this.Y+30,-3,1);
+        Bullet bullet2 = new Bullet(this.X+25,this.Y+50,-3,1);
         vecBul.add(bullet);
         vecBul.add(bullet2);
 
     }
 
     public void multiFire(){
-        Bullet bullet1 = new Bullet(this.X+10,this.Y+30,5,2);
-        Bullet bullet2 = new Bullet(this.X+25,this.Y+30,-5,1);
-        Bullet bullet3 = new Bullet(this.X+35,this.Y+30,-5,2);
+        Bullet bullet1 = new Bullet(this.X+10,this.Y+30,3,2);
+        Bullet bullet2 = new Bullet(this.X+25,this.Y+30,-3,1);
+        Bullet bullet3 = new Bullet(this.X+35,this.Y+30,-3,2);
         vecBul.add(bullet1);
         vecBul.add(bullet2);
         vecBul.add(bullet3);
