@@ -11,8 +11,7 @@ import java.util.Vector;
  */
 public class GameWindow extends Frame implements KeyListener,Runnable, MouseMotionListener {
 
-    public final int WIDTH = 400;
-    public final int HEIGH = 640;
+    public final int WIDTH = 400,HEIGH = 640;
     public final int FPS = 1000/60;
     BufferedImage background;
     Graphics seconds;
@@ -114,10 +113,9 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_W){
             plane.setDir(1);
-        }else if(e.getKeyCode() == KeyEvent.VK_S){
+        }else if(e.getKeyCode() == KeyEvent.VK_S) {
             plane.setDir(2);
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_A){
+        }else if(e.getKeyCode() == KeyEvent.VK_A){
             plane.setDir(3);
         }else if(e.getKeyCode() == KeyEvent.VK_D){
             plane.setDir(4);
