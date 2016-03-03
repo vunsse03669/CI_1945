@@ -43,11 +43,11 @@ public class Bullet extends GameObject {
     public void multiFire(){
         if(this.speed < 0){
             this.Y -= this.speed;
-            this.X -= this.speed/2;
+            this.X -= this.speed/3;
         }
         else{
             this.Y += this.speed;
-            this.X -= this.speed/2;
+            this.X -= this.speed/3;
         }
     }
 
