@@ -11,13 +11,11 @@ import java.util.Vector;
  */
 public class GameWindow extends Frame implements KeyListener,Runnable, MouseMotionListener {
 
-    public final int WIDTH = 400,HEIGH = 640;
-    public final int FPS = 1000/60;
     BufferedImage background;
     Graphics seconds;
     Image img;
     Plane plane, plane2;
-    Vector<PlaneEnemy> vectorEnemy = new Vector<>();
+    Vector<EnemyObject> vectorEnemy = new Vector<>();
 
 
     public GameWindow(){
@@ -44,10 +42,11 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
 
     public void setGame(){
         this.setTitle("1945");
-        this.setSize(WIDTH,HEIGH);
+        this.setSize(Helper.WIDTH,Helper.HEIGH);
         this.setVisible(true);
 
-        setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "cursor"));
+        setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
+                new Point(0, 0), "cursor"));
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -91,15 +90,18 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
         background = ImageIO.read(new File("Resources/Background.png"));
         plane = new Plane(90,500,4,2);
         plane2 = new Plane(250,500,4,3);
-        vectorEnemy.add(new PlaneEnemy(130,100,4,2));
-        vectorEnemy.add(new PlaneEnemy(130,300,4,1));
+        vectorEnemy.add(new SimpleEnemy(130,100,Helper.ENEMY_SPEED));
+        vectorEnemy.add(new SimpleEnemy(190,100,Helper.ENEMY_SPEED));
+        vectorEnemy.add(new CircleEnemy(130,300,Helper.ENEMY_SPEED));
+        vectorEnemy.add(new CircleEnemy(230,300,Helper.ENEMY_SPEED));
+
     }
 
     public void paint(Graphics g){
         g.drawImage(background,0,0,null);
         plane.draw(g);
         plane2.draw(g);
-        for(PlaneEnemy enemy : vectorEnemy){
+        for(EnemyObject enemy : vectorEnemy){
             enemy.draw(g);
         }
     }
@@ -136,12 +138,12 @@ public class GameWindow extends Frame implements KeyListener,Runnable, MouseMoti
         while (true){
             plane.update();
             plane2.update();
-            for(PlaneEnemy enemy : vectorEnemy){
+            for(EnemyObject enemy : vectorEnemy){
                 enemy.update();
             }
             repaint();
             try {
-                Thread.sleep(FPS);
+                Thread.sleep(Helper.FPS);
             } catch (InterruptedException e) {}
         }
     }

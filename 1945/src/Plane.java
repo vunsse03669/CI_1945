@@ -10,12 +10,12 @@ import java.util.Vector;
  */
 public class Plane extends PlaneObject {
 
-    private Vector<Bullet> vecBul = new Vector<Bullet>();
+    private Vector<BulletObject> vecBul = new Vector<>();
+    private int dir;
 
     private Plane(){
         this.X = 150;
         this.Y = 300;
-        this.type = 1;
         this.speed = 4;
         this.dir = 0;
         try {
@@ -60,11 +60,13 @@ public class Plane extends PlaneObject {
         }
     }
 
-
+    public void setDir(int dir) {
+        this.dir = dir;
+    }
 
     public void draw(Graphics g){
         g.drawImage(this.sprite,(int)this.X,(int)this.Y,null);
-        for(Bullet bul : vecBul){
+        for(BulletObject bul : vecBul){
             bul.draw(g);
         }
     }
@@ -93,13 +95,13 @@ public class Plane extends PlaneObject {
 
     public void update(){
         this.move();
-        for(Bullet bul : vecBul){
+        for(BulletObject bul : vecBul){
             bul.update();
         }
     }
 
     public void fire(){
-        Bullet bullet = new Bullet(this.X + 30,this.Y,10,1);
+        SingleBullet bullet = new SingleBullet(this.X + 30,this.Y,Helper.PLAYER_BULLET_SPEED);
         vecBul.add(bullet);
     }
 

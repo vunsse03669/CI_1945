@@ -8,15 +8,11 @@ public abstract class GameObject {
     protected double X;
     protected double Y;
     protected int speed;
-    protected  int type;
+
     protected BufferedImage sprite;
 
     public double getX() {
         return X;
-    }
-
-    public int getType() {
-        return type;
     }
 
     public double getY() {
@@ -47,9 +43,6 @@ public abstract class GameObject {
         Y = y;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public void update(){};
     public void draw(Graphics g){};
